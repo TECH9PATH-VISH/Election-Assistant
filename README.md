@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Election Assistant
 
-## Getting Started
+An interactive, high-performance platform that helps users understand the election process, including voter registration, key timelines, and polling steps. Built using **Next.js**, **TypeScript**, **TailwindCSS**, and **Shadcn/ui**.
 
-First, run the development server:
+## 👤 Author
+**TECH9PATH-VISH**
+- GitHub: [https://github.com/TECH9PATH-VISH](https://github.com/TECH9PATH-VISH)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
+- **Interactive Timeline**: A visual, scrollable roadmap of the election cycle.
+- **Election Step-by-Step Wizard**: A multi-step form to guide users through "How to Vote."
+- **Google Maps Integration**: "Find My Polling Place" feature (Requires Google Maps API Key).
+- **Calendar Integration**: Downloadable `.ics` files to save important dates.
+- **Interactive Quiz**: Test your election knowledge.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
+- Next.js (App Router)
+- TypeScript
+- TailwindCSS & Shadcn UI
+- Framer Motion (Animations)
+- Zustand (State Management)
+- Firebase & Next-Auth
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TECH9PATH-VISH/Election-Assistant.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+## 🌐 Deploying to GitHub Pages
 
-To learn more about Next.js, take a look at the following resources:
+GitHub Pages only hosts **static** files. Because Next.js uses server-side features (like Next-Auth and API routes), deploying directly to GitHub Pages requires an `output: 'export'` configuration, which disables some server features.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you are seeing a blank page or 404 errors on GitHub Pages, it is likely because the Next.js app needs a specific GitHub Actions workflow to build and export the static HTML properly. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Recommended Alternative**: For full Next.js support (including Next-Auth), it is highly recommended to deploy to **[Vercel](https://vercel.com/)**.
+1. Create an account on Vercel.
+2. Import this GitHub repository.
+3. Vercel will automatically configure and deploy your Next.js application with zero configuration needed!
