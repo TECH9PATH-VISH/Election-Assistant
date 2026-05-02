@@ -1,3 +1,8 @@
+/**
+ * @file PollingLocator.tsx
+ * @description Component for finding a user's polling location using Google Maps API.
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -6,6 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MapPin, Search } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
+import { pollingSearchSchema } from "@/lib/validations";
 
 const mapContainerStyle = {
   width: "100%",
@@ -18,23 +25,54 @@ const defaultCenter = {
   lng: -77.0369,
 };
 
+/**
+ * PollingLocator Component
+ * 
+ * Renders a search form and a Google Map to display the user's polling location.
+ * Utilizes `isomorphic-dompurify` for input sanitization and `zod` for validation.
+ * 
+ * @returns {JSX.Element} The rendered Polling Locator component.
+ */
 export function PollingLocator() {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
 
   const [address, setAddress] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [pollingLocation, setPollingLocation] = useState<{lat: number, lng: number} | null>(null);
 
+  /**
+   * Handles the search form submission.
+   * Sanitizes the input, validates against the Zod schema, and mocks the API call with try-catch.
+   * 
+   * @param {React.FormEvent} e - The form submission event.
+   * @throws Will log an error to console if the mock API call fails.
+   */
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mocking finding a location based on address
-    // In reality, this would hit the Google Civic Information API
-    if (address.trim().length > 0) {
+    setErrorMsg(null);
+
+    // Sanitize input to prevent XSS
+    const cleanAddress = DOMPurify.sanitize(address);
+    
+    // Validate using Zod schema
+    const validation = pollingSearchSchema.safeParse({ address: cleanAddress });
+    if (!validation.success) {
+      setErrorMsg(validation.error.errors[0].message);
+      return;
+    }
+
+    try {
+      // Mocking finding a location based on address
+      // In reality, this would hit the Google Civic Information API
       setPollingLocation({
         lat: 38.9072 + (Math.random() * 0.05 - 0.025),
         lng: -77.0369 + (Math.random() * 0.05 - 0.025),
       });
+    } catch (error) {
+      console.error("Error fetching polling location:", error);
+      setErrorMsg("Failed to load polling location. Please try again.");
     }
   };
 
@@ -49,16 +87,19 @@ export function PollingLocator() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
-        <form onSubmit={handleSearch} className="flex gap-2">
-          <Input 
-            placeholder="e.g., 1600 Pennsylvania Avenue NW, Washington, DC" 
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="flex-grow"
-          />
-          <Button type="submit">
-            <Search className="w-4 h-4 mr-2" /> Search
-          </Button>
+        <form onSubmit={handleSearch} className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <Input 
+              placeholder="e.g., 1600 Pennsylvania Avenue NW, Washington, DC" 
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="flex-grow"
+            />
+            <Button type="submit">
+              <Search className="w-4 h-4 mr-2" /> Search
+            </Button>
+          </div>
+          {errorMsg && <span className="text-sm text-destructive">{errorMsg}</span>}
         </form>
 
         <div className="relative border rounded-lg overflow-hidden bg-muted">
