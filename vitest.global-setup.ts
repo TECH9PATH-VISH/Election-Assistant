@@ -7,15 +7,14 @@
 export function setup() {
   // Mock Google Maps API
   globalThis.google = {
-    // @ts-ignore
     maps: {
       Animation: {
         DROP: 1,
         BOUNCE: 2,
       },
       // Add other required mock properties/functions here if needed
-    },
-  };
+    } as any,
+  } as any;
 }
 
 export function teardown() {

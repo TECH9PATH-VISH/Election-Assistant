@@ -59,7 +59,7 @@ export function PollingLocator() {
     // Validate using Zod schema
     const validation = pollingSearchSchema.safeParse({ address: cleanAddress });
     if (!validation.success) {
-      setErrorMsg(validation.error.errors[0].message);
+      setErrorMsg(validation.error.issues[0].message);
       return;
     }
 
